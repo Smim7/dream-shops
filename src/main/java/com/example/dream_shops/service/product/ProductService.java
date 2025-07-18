@@ -1,10 +1,13 @@
 package com.example.dream_shops.service.product;
 
+import com.example.dream_shops.exception.ProductNotFoundException;
 import com.example.dream_shops.model.Product;
+import com.example.dream_shops.repository.ProductRepository;
 
 import java.util.List;
 
 public class ProductService implements IProductService {
+    private ProductRepository productRepository;
     @Override
     public Product addProduct(Product product) {
         return null;
@@ -12,7 +15,8 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return null;
+        return (Product) productRepository.findById(id)
+                .orElseThrow(()->new ProductNotFoundException("Product not found"));
     }
 
     @Override
