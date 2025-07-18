@@ -1,5 +1,14 @@
 package com.example.dream_shops.service.category;
 
-public interface ICategoryService {
+import com.example.dream_shops.model.Category;
 
+import java.util.List;
+
+public interface ICategoryService {
+    Category addCategory(Category category);
+    Category updateCategory(Category category);
+    void deleteCategory(Long id);
+    List<Category> getAllCategories();
+    Category getCategoryById(Long id);
+    Category getCategoryByName(String name);
 }
