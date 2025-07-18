@@ -3,16 +3,20 @@ package com.example.dream_shops.service.product;
 import com.example.dream_shops.exception.ProductNotFoundException;
 import com.example.dream_shops.model.Category;
 import com.example.dream_shops.model.Product;
+import com.example.dream_shops.repository.CategoryRepository;
 import com.example.dream_shops.repository.ProductRepository;
 import com.example.dream_shops.request.AddProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
     private  final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
 
     @Override
@@ -21,9 +25,17 @@ public class ProductService implements IProductService {
         //If yes ,set it as the new product category
         //if no ,then save it as a new category
         //then set it as the new product category
-        return null;
+
+        Category category= Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                                                 .orElseGet(()->{
+               Category newcategory=new Category(request.getCategory().getName());
+               return categoryRepository.save(newcategory);
+                                                 });
+        request.setCategory(category);
+
+        return productRepository.save(createProduct(request,category));
     }
-    private Product CreateProduct(AddProductRequest request, Category category) {
+    private Product createProduct(AddProductRequest request, Category category) {
         return  new Product(
                 request.getName(),
                 request.getBrand(),
