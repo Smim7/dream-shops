@@ -1,7 +1,7 @@
 package com.example.dream_shops.service.category;
 
 import com.example.dream_shops.exception.ALreadyExceptsException;
-import com.example.dream_shops.exception.ResourceNotFound;
+import com.example.dream_shops.exception.ResourceNotFoundExceotion;
 import com.example.dream_shops.model.Category;
 import com.example.dream_shops.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +27,14 @@ public class CategoryService implements ICategoryService{
     public Category updateCategory(Category category,Long id) {
         return Optional.ofNullable(getCategoryById(id)).map(oldcategory->{oldcategory.setName(category.getName());
                 return categoryRepository.save(oldcategory);})
-                .orElseThrow(()->new ResourceNotFound("category"));
+                .orElseThrow(()->new ResourceNotFoundExceotion("category"));
 
     }
 
     @Override
     public void deleteCategory(Long id) {
         categoryRepository.findById(id)
-                .ifPresentOrElse(categoryRepository::delete,()->{throw new ResourceNotFound("Category not found");});
+                .ifPresentOrElse(categoryRepository::delete,()->{throw new ResourceNotFoundExceotion("Category not found");});
 
     }
 
@@ -46,7 +46,7 @@ public class CategoryService implements ICategoryService{
     @Override
     public Category getCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFound("Category not found"));
+                .orElseThrow(()->new ResourceNotFoundExceotion("Category not found"));
     }
 
     @Override
