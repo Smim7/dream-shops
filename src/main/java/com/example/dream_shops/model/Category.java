@@ -1,5 +1,6 @@
 package com.example.dream_shops.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -18,12 +20,13 @@ public class Category {
     private Long id;
     private String name;
 
-@OneToMany(mappedBy = "category")
-     private List<Product> products;
+    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 
 
     public Category(String name) {
-        this.name=name;
+        this.name = name;
     }
 }
 

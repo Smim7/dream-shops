@@ -8,6 +8,7 @@ import com.example.dream_shops.repository.ProductRepository;
 import com.example.dream_shops.request.AddProductRequest;
 import com.example.dream_shops.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
+    @Autowired
     private  final ProductRepository productRepository;
+    @Autowired
     private final CategoryRepository categoryRepository;
 
 
@@ -27,15 +30,14 @@ public class ProductService implements IProductService {
         //if no ,then save it as a new category
         //then set it as the new product category
 
-        Category category= Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
-                                                 .orElseGet(()->{
-               Category newcategory=new Category(request.getCategory().getName());
-               return categoryRepository.save(newcategory);
-                                                 });
-        request.setCategory(category);
 
-        return productRepository.save(createProduct(request,category));
-    }
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(() -> {
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+        request.setCategory(category);
+        return productRepository.save(createProduct(request, category));}
     private Product createProduct(AddProductRequest request, Category category) {
         return  new Product(
                 request.getName(),

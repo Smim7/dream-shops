@@ -1,5 +1,8 @@
 package com.example.dream_shops.model;
 
+import com.example.dream_shops.dto.ImageDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,13 +26,13 @@ public class Product {
         private int inventory;    //To see product is available or not
         private String description;
 
-        @ManyToOne(cascade  =CascadeType.ALL)
-        @JoinColumn(name="category_id")
+        @ManyToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "category_id")
         private Category category;
 
+        @JsonIgnore
         @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
         private List<Image> images;
-
 
         public Product(String name, String brand, BigDecimal price, int inventory, String description, Category category) {
                 this.name = name;
