@@ -30,7 +30,7 @@ public class Product {
         @JoinColumn(name = "category_id")
         private Category category;
 
-        @JsonIgnore
+
         @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
         private List<Image> images;
 

@@ -26,12 +26,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class ImageController {
     private final IImageService  imageService;
 
-    @PostMapping("/upload")
+@PostMapping("/upload")
     public ResponseEntity<ApiResponse> saveImage(@RequestParam List <MultipartFile>file,
                                                 @RequestParam Long productId){
         try{
-        List<ImageDto> imageDtos=imageService.saveImages(file,productId);
-        return ResponseEntity.ok(new ApiResponse("Upload success!",imageDtos));}
+        List<ImageDto> imageDto=imageService.saveImages(file,productId);
+        return ResponseEntity.ok(new ApiResponse("Upload success!",imageDto));}
         catch(Exception e){
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("upload fail",e.getMessage()));
@@ -40,7 +40,7 @@ public class ImageController {
 
 
 
-        @GetMapping("/image/download/{imageId}")
+@GetMapping("/image/download/{imageId}")
         public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws SQLException {
             Image image = imageService.getImageById(imageId);
             ByteArrayResource resource = new ByteArrayResource(image.getImage().getBytes(1, (int) image.getImage().length()));
