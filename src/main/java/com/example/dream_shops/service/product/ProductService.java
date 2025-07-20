@@ -17,10 +17,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
-    @Autowired
+
     private  final ProductRepository productRepository;
-    @Autowired
+
     private final CategoryRepository categoryRepository;
+
 
 
     @Override
