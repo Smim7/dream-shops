@@ -53,7 +53,7 @@ public class ImageService implements IImageService {
                     image.setImage(new SerialBlob((file.getBytes())));
                     image.setProduct(product);
 
-                   String buildDownloadUrl="/api/v1/omages/image/download/";
+                   String buildDownloadUrl="api/v1/images/image/download";
                    String downloadUrL=buildDownloadUrl+image.getId();
                    image.setDownloadUrl(downloadUrL);
                    Image savedImage=imageRepository.save(image);
