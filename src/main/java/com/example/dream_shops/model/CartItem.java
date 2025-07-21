@@ -1,5 +1,6 @@
 package com.example.dream_shops.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +21,12 @@ public class CartItem {
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="Cart_id")
+    @JoinColumn(name="cart_id")
     private Cart cart;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
