@@ -2,6 +2,7 @@ package com.example.dream_shops.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+    @NaturalId
     private String email;
     private String password;
 
