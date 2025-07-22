@@ -1,5 +1,6 @@
 package com.example.dream_shops.service.order;
 
+import com.example.dream_shops.dto.OrderDto;
 import com.example.dream_shops.enums.OrderStatus;
 import com.example.dream_shops.exception.ResourceNotFoundExceotion;
 import com.example.dream_shops.model.Cart;
@@ -10,6 +11,7 @@ import com.example.dream_shops.repository.OrderRepository;
 import com.example.dream_shops.repository.ProductRepository;
 import com.example.dream_shops.service.cart.ICartService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +25,7 @@ public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ICartService cartService;
+    private final ModelMapper modelMapper;
 
 
     @Override
@@ -48,9 +51,9 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order getOrder(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(()->  new ResourceNotFoundExceotion("Order not found"));
+    public OrderDto getOrder(Long orderId) {
+        return orderRepository.findById(orderId).map(this::convertToDto)
+                .orElseThrow(()->  new ResourceNotFoundExceotion(" No Order found"));
     }
 
     private List<OrderItem> createOrderIteams(Order order, Cart cart) {
@@ -73,8 +76,13 @@ public class OrderService implements IOrderService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
     @Override
-    public List<Order> getUserOrders(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public List<OrderDto> getUserOrders(Long userId) {
+        List<Order> orders=orderRepository.findByUserId(userId);
+        return orders.stream().map(this::convertToDto).toList();
+    }
+
+    private OrderDto convertToDto(Order order) {
+        return modelMapper.map(order, OrderDto.class);
     }
 }
 
