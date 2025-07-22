@@ -72,7 +72,7 @@ public class UserService implements IUserService{
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
         userDto.setCart(cartDto);
-        userDto.setOrders(orderDto);
+        userDto.setOrders( orderDto);
 
         return userDto;
     }

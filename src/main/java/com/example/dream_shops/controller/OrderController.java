@@ -7,6 +7,7 @@ import com.example.dream_shops.response.ApiResponse;
 import com.example.dream_shops.service.order.OrderService;
 import com.example.dream_shops.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,14 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class OrderController {
     private final UserService userService;
     private final OrderService orderService;
+    private final ModelMapper modelMapper;
 
-@PostMapping("/order")
+    @PostMapping("/order")
     public ResponseEntity<ApiResponse> createOrder(@RequestParam Long userId) {
         try {
             Order order=orderService.placeOrder(userId);
-            return ResponseEntity.ok(new ApiResponse("Item order successfully created", order));
+            OrderDto orderDto=orderService.convertToDto(order);
+            return ResponseEntity.ok(new ApiResponse("Item order successfully created", orderDto));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Error Occurred", e.getMessage()));
@@ -54,4 +57,5 @@ public class OrderController {
                     .body(new ApiResponse("Oops!", e.getMessage()));
         }
     }
+
 }
