@@ -1,6 +1,7 @@
 package com.example.dream_shops.controller;
 
 import com.example.dream_shops.dto.ProductDto;
+import com.example.dream_shops.exception.ALreadyExceptsException;
 import com.example.dream_shops.exception.ResourceNotFoundExceotion;
 import com.example.dream_shops.model.Product;
 import com.example.dream_shops.request.AddProductRequest;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("${api.prefix}/products")
@@ -48,8 +48,8 @@ public class ProductController {
             Product theProduct = productService.addProduct(product);
             ProductDto productDto = productService.convertToDto(theProduct);
             return   ResponseEntity.ok(new ApiResponse(" Add product success!",productDto));
-        } catch (Exception e) {
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        } catch (ALreadyExceptsException e) {
+            return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(),null));
         }
     }
 

@@ -38,7 +38,9 @@ public class ProductService implements IProductService {
         //then set it as the new product category
 
        if ((productExists(request.getName(),request.getBrand()))) {
-           throw new ALreadyExceptsException(request.getBrand()+" "+request.getName()+" "+"already exists");
+           throw new ALreadyExceptsException
+       (request.getBrand()+" "+request.getName()+" "+
+               "already exists,You may update this product instead!");
        }
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
