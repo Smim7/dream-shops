@@ -26,6 +26,8 @@ public class Product {
         private int inventory;    //To see product is available or not
         private String description;
 
+
+
         @ManyToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "category_id")
         private Category category;

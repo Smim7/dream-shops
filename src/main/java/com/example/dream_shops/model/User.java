@@ -1,5 +1,6 @@
 package com.example.dream_shops.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
@@ -20,6 +21,7 @@ public class User {
     @NaturalId
     private String email;
     private String password;
+
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private Cart cart;

@@ -1,5 +1,8 @@
 package com.example.dream_shops.dto;
 
+import com.example.dream_shops.model.Cart;
+import com.example.dream_shops.model.CartItem;
+import com.example.dream_shops.model.Order;
 import lombok.Data;
 
 import java.util.List;
@@ -11,5 +14,8 @@ public class UserDto {
     private String lastName;
     private String email;
     private List<OrderDto> orders;
-    private List<CartDto> carts;
+    private CartDto cart;
+//    private Cart carts;
+//    private List<CartItem> cartItems;
+//    private List<ProductDto> products;
 }
