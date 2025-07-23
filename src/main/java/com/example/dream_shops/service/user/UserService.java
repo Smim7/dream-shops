@@ -26,8 +26,9 @@ public class UserService implements IUserService{
 
     @Override
     public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(()-> new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException("User not found"));
+        return user;
+
     }
 
     @Override
@@ -64,16 +65,6 @@ public class UserService implements IUserService{
     }
     @Override
     public UserDto convertToDto(User user) {
-        UserDto userDto = new UserDto();
-        CartDto cartDto = modelMapper.map(user.getCart(),CartDto.class);
-        List<OrderDto> orderDto = Collections.singletonList(modelMapper.map(user.getOrder(), OrderDto.class));
-        userDto.setId(user.getId());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setCart(cartDto);
-        userDto.setOrders( orderDto);
-
-        return userDto;
+        return modelMapper.map(user,UserDto.class);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.dream_shops.confiq;
+package com.example.dream_shops.security.confiq;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
